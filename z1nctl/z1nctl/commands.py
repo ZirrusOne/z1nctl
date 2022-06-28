@@ -1,5 +1,5 @@
 import click
-# import frappe
+import frappe
 
 @click.group()
 def z1nctl():
