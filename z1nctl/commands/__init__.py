@@ -1,5 +1,5 @@
 import click
-import frappe.db
+import frappe
 from psycopg2 import sql
 
 
