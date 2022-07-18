@@ -6,8 +6,12 @@ from psycopg2 import sql
 @click.command('get-perm')
 @click.argument('doctype')
 @click.argument('fieldType', required=False)
-def get_perm(doctype, fieldType):
+def get_perm(doctype, **kwargs):
     # SQL query to pull the doc type
+    try:
+        fieldType = kwargs["fieldType"]
+    except:
+        fieldType = None
     if doctype and fieldType:
         print(f"Executing get-perm sql query with parameters: doctype:{doctype}, fieldType:{fieldType}")
         frappe.db.sql('''
