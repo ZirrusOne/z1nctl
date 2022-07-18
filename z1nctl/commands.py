@@ -8,7 +8,6 @@ from psycopg2 import sql
 @click.argument('fieldType', required=False)
 def get_perm(doctype, **kwargs):
     # SQL query to pull the doc type
-    print(frappe.get_hooks())
     try:
         fieldType = kwargs["fieldType"]
     except:
