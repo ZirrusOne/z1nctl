@@ -1,5 +1,5 @@
 import click
-import frappe
+import frappe.db
 from psycopg2 import sql
 
 
@@ -8,6 +8,7 @@ from psycopg2 import sql
 @click.argument('fieldType', required=False)
 def get_perm(doctype, **kwargs):
     # SQL query to pull the doc type
+    print(frappe.get_hooks())
     try:
         fieldType = kwargs["fieldType"]
     except:
@@ -16,7 +17,7 @@ def get_perm(doctype, **kwargs):
         print(f"Executing get-perm sql query with parameters: doctype:{doctype}, fieldType:{fieldType}")
         frappe.db.sql('''
         SELECT fieldname, label, permlevel
-        FROM tabDocField
+        FROM tabDocField tdf
         WHERE tdf.parent={doctype} AND tdf.fieldtype={fieldType}
         ''').format(
             doctype = sql.Identifier(doctype),
@@ -28,8 +29,8 @@ def get_perm(doctype, **kwargs):
         print(f"Executing get-perm sql query with parameters: doctype:{doctype}")
         frappe.db.sql('''
         SELECT fieldname, label, permlevel
-        FROM tabDocField
-        WHERE tdf.parent={doctype}
+        FROM tabDocField tdf
+        WHERE tdf.parent='{doctype}'
         ''').format(
             doctype = sql.Identifier(doctype)
         )
@@ -53,7 +54,7 @@ def set_perm(doctype, fieldType, permLevel):
     if doctype and fieldType and permLevel:
         print(f"Executing set-perm sql query with parameters: doctype:{doctype}, fieldType:{fieldType}, permLevel:{permLevel}")
         frappe.db.sql('''
-        UPDATE tabDocField AS tdf
+        UPDATE tabDocField tdf
         SET permlevel = {permLevel}
         WHERE tdf.parent={doctype} AND tdf.fieldtype={fieldType}
         ''').format(
