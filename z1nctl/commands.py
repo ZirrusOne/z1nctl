@@ -1,6 +1,5 @@
 import click
 import frappe
-from psycopg2 import sql
 
 frappe.init(site="erpnext")
 frappe.connect()
@@ -19,10 +18,10 @@ def get_perm(doctype, **kwargs):
         frappe.db.sql('''
         SELECT fieldname, label, permlevel
         FROM tabDocField tdf
-        WHERE tdf.parent={doctype} AND tdf.fieldtype={fieldType}
-        ''').format(
-            doctype = sql.Identifier(doctype),
-            fieldType = sql.Identifier(fieldType)
+        WHERE tdf.parent=%(doctype)s AND tdf.fieldtype=%(fieldType)s
+        '''.format(
+            doctype,
+            fieldType)
         )
         print("Sucessfully executed get-perm sql query")
         return
@@ -31,9 +30,8 @@ def get_perm(doctype, **kwargs):
         frappe.db.sql('''
         SELECT fieldname, label, permlevel
         FROM tabDocField tdf
-        WHERE tdf.parent='{doctype}'
-        ''').format(
-            doctype = sql.Identifier(doctype)
+        WHERE tdf.parent=%(doctype)s
+        '''.format(doctype)
         )
         print("Sucessfully executed get-perm sql query")
 
@@ -56,12 +54,12 @@ def set_perm(doctype, fieldType, permLevel):
         print(f"Executing set-perm sql query with parameters: doctype:{doctype}, fieldType:{fieldType}, permLevel:{permLevel}")
         frappe.db.sql('''
         UPDATE tabDocField tdf
-        SET permlevel = {permLevel}
-        WHERE tdf.parent={doctype} AND tdf.fieldtype={fieldType}
-        ''').format(
-            permLevel = sql.Literal(permLevel),
-            doctype = sql.Identifier(doctype),
-            fieldType = sql.Identifier(fieldType)
+        SET permlevel = %(permLevel)s
+        WHERE tdf.parent=%(doctype)s AND tdf.fieldtype=%(fieldType)s
+        '''.format(
+            permLevel,
+            doctype,
+            fieldType)
         )
         print("Sucessfully executed set-perm sql query")
 
