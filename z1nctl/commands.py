@@ -2,6 +2,8 @@ import click
 import frappe
 from psycopg2 import sql
 
+frappe.init(site="erpnext")
+frappe.connect()
 
 @click.command('get-perm')
 @click.argument('doctype')
