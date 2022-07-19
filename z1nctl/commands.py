@@ -15,20 +15,23 @@ def get_perm(doctype, **kwargs):
         fieldType = None
     if doctype and fieldType:
         print(f"Executing get-perm sql query with parameters: doctype:{doctype}, fieldType:{fieldType}")
-        frappe.db.sql(f'''
+        print(
+            frappe.db.sql(f'''
         SELECT fieldname, label, permlevel
         FROM tabDocField tdf
         WHERE tdf.parent='{doctype}' AND tdf.fieldtype='{fieldType}'
         ''')
+        )
         print("Sucessfully executed get-perm sql query")
         return
     if doctype:
         print(f"Executing get-perm sql query with parameters: doctype:{doctype}")
-        frappe.db.sql(f'''
+        print(
+            frappe.db.sql(f'''
         SELECT fieldname, label, permlevel
         FROM tabDocField tdf
         WHERE tdf.parent='{doctype}'
-        '''
+        ''')
         )
         print("Sucessfully executed get-perm sql query")
 
@@ -49,11 +52,13 @@ def set_perm(doctype, fieldType, permLevel):
 
     if doctype and fieldType and permLevel:
         print(f"Executing set-perm sql query with parameters: doctype:{doctype}, fieldType:{fieldType}, permLevel:{permLevel}")
-        frappe.db.sql(f'''
+        print(
+            frappe.db.sql(f'''
         UPDATE tabDocField tdf
         SET permlevel = {permLevel}
         WHERE tdf.parent='{doctype}' AND tdf.fieldtype='{fieldType}'
         ''')
+        )
         print("Sucessfully executed set-perm sql query")
 
 commands = [
