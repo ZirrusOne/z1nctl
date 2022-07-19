@@ -40,10 +40,10 @@ def get_perm(doctype, **kwargs):
 @click.argument('doctype')
 @click.argument('fieldType')
 @click.argument('permLevel')
-def set_perm(doctype, fieldType, permLevel, **kwargs):
+def set_perm(doctype, **kwargs):
     # Validate inputs
     try:
-        permLevel = int(permLevel)
+        permLevel = int(kwargs["permLevel"])
         if permLevel < 0 or permLevel > 9:
             raise Exception
     except:
@@ -52,7 +52,7 @@ def set_perm(doctype, fieldType, permLevel, **kwargs):
     try:
         fieldType = kwargs["fieldType"]
     except:
-        fieldType = None
+        raise Exception(f"FieldType must be set! fieldType:{fieldType}")
 
     if doctype and fieldType and permLevel:
         print(f"Executing set-perm sql query with parameters: doctype:{doctype}, fieldType:{fieldType}, permLevel:{permLevel}")
