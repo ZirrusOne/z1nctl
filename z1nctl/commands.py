@@ -42,6 +42,7 @@ def get_perm(doctype, **kwargs):
 @click.argument('permLevel')
 def set_perm(doctype, **kwargs):
     # Validate inputs
+    print(**kwargs)
     permLevel = int(kwargs["permLevel"])
     if permLevel < 0 or permLevel > 9:
         raise Exception(f"permLevel:{permLevel} must be an integer between 0-9")
