@@ -40,15 +40,14 @@ def get_perm(doctype, **kwargs):
 @click.argument('doctype')
 @click.argument('fieldType')
 @click.argument('permLevel')
-def set_perm(doctype, fieldType, permLevel):
+def set_perm(doctype, **kwargs):
     # Validate inputs
-    # permLevel = int(kwargs["permLevel"])
+    permLevel = int(kwargs["permLevel"])
     if permLevel < 0 or permLevel > 9:
         raise Exception(f"permLevel:{permLevel} must be an integer between 0-9")
 
     try:
-        fieldType is not None
-        # fieldType = kwargs["fieldType"]
+        fieldType = kwargs["fieldtype"]
     except:
         raise Exception(f"FieldType must be set! fieldType:{fieldType}")
 
