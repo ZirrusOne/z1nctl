@@ -19,8 +19,8 @@ def get_perm(doctype, **kwargs):
             frappe.db.sql(f'''
         SELECT fieldname, label, permlevel
         FROM tabDocField tdf
-        WHERE tdf.parent='{doctype}' AND tdf.fieldtype='{fieldType}'
-        ''')
+        WHERE tdf.parent=%(doctype)s AND tdf.fieldtype=%(fieldType)s
+        ''', values={'doctype': doctype, 'fieldType': fieldType})
         )
         print("Sucessfully executed get-perm sql query")
         return
@@ -30,8 +30,8 @@ def get_perm(doctype, **kwargs):
             frappe.db.sql(f'''
         SELECT fieldname, label, permlevel
         FROM tabDocField tdf
-        WHERE tdf.parent='{doctype}'
-        ''')
+        WHERE tdf.parent=%(doctype)s
+        ''', values={'doctype':doctype})
         )
         print("Sucessfully executed get-perm sql query")
 
@@ -40,14 +40,15 @@ def get_perm(doctype, **kwargs):
 @click.argument('doctype')
 @click.argument('fieldType')
 @click.argument('permLevel')
-def set_perm(doctype, **kwargs):
+def set_perm(doctype, fieldType, permLevel):
     # Validate inputs
-    permLevel = int(kwargs["permLevel"])
+    # permLevel = int(kwargs["permLevel"])
     if permLevel < 0 or permLevel > 9:
         raise Exception(f"permLevel:{permLevel} must be an integer between 0-9")
 
     try:
-        fieldType = kwargs["fieldType"]
+        fieldType is not None
+        # fieldType = kwargs["fieldType"]
     except:
         raise Exception(f"FieldType must be set! fieldType:{fieldType}")
 
@@ -56,9 +57,9 @@ def set_perm(doctype, **kwargs):
         print(
             frappe.db.sql(f'''
         UPDATE tabDocField tdf
-        SET permlevel = {permLevel}
-        WHERE tdf.parent='{doctype}' AND tdf.fieldtype='{fieldType}'
-        ''')
+        SET permlevel = %(permLevel)s
+        WHERE tdf.parent=%(doctype)s AND tdf.fieldtype=%(fieldType)s
+        ''', values={'permLevel':permLevel, 'doctype':doctype, 'fieldType':fieldType})
         )
         print("Sucessfully executed set-perm sql query")
 
