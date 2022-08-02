@@ -6,17 +6,21 @@ frappe.connect()
 
 @click.command('get-perm')
 @click.argument('doctype', nargs=1)
-@click.argument('fieldType', nargs=1, required=False)
-def get_perm(doctype, fieldType):
+@click.argument('fieldtype', nargs=1, required=False)
+def get_perm(doctype, **kwargs):
     # SQL query to pull the doc type
-    if doctype and fieldType:
-        print(f"Executing get-perm sql query with parameters: doctype:{doctype}, fieldType:{fieldType}")
+    try:
+        fieldtype = kwargs["fieldtype"]
+    except:
+        fieldtype = None
+    if doctype and fieldtype:
+        print(f"Executing get-perm sql query with parameters: doctype:{doctype}, fieldType:{fieldtype}")
         print(
             frappe.db.sql(f'''
         SELECT fieldname, label, permlevel
         FROM tabDocField tdf
         WHERE tdf.parent=%(doctype)s AND tdf.fieldtype=%(fieldType)s
-        ''', values={'doctype': doctype, 'fieldType': fieldType})
+        ''', values={'doctype': doctype, 'fieldType': fieldtype})
         )
         print("Sucessfully executed get-perm sql query")
         return
