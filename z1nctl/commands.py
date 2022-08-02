@@ -57,7 +57,7 @@ def set_perm(doctype, **kwargs):
         print(
             frappe.db.sql(f'''
         UPDATE tabDocField tdf
-        SET permlevel = %(permLevel)s
+        SET permlevel=%(permLevel)s
         WHERE tdf.parent=%(doctype)s AND tdf.fieldtype=%(fieldType)s
         ''', values={'permLevel':permlevel, 'doctype':doctype, 'fieldType':fieldtype})
         )
