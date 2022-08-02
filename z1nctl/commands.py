@@ -61,6 +61,7 @@ def set_perm(doctype, **kwargs):
         WHERE tdf.parent=%(doctype)s AND tdf.fieldtype=%(fieldType)s
         ''', values={'permLevel':permlevel, 'doctype':doctype, 'fieldType':fieldtype})
         )
+        frappe.db.commit()
         print("Sucessfully executed set-perm sql query")
 
 commands = [
