@@ -52,7 +52,7 @@ def set_perm(doctype, **kwargs):
     except:
         raise Exception(f"FieldType must be set! fieldType:{fieldtype}")
 
-    if doctype and fieldtype and permlevel:
+    if doctype is not None and fieldtype is not None and permlevel is not None:
         print(f"Executing set-perm sql query with parameters: doctype:{doctype}, fieldType:{fieldtype}, permLevel:{permlevel}")
         print(
             frappe.db.sql(f'''
