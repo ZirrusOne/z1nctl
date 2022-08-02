@@ -5,14 +5,10 @@ frappe.init(site="erpnext")
 frappe.connect()
 
 @click.command('get-perm')
-@click.argument('doctype')
-@click.argument('fieldType', required=False)
-def get_perm(doctype, **kwargs):
+@click.argument('doctype', nargs=1)
+@click.argument('fieldType', nargs=1, required=False)
+def get_perm(doctype, fieldType):
     # SQL query to pull the doc type
-    try:
-        fieldType = kwargs["fieldType"]
-    except:
-        fieldType = None
     if doctype and fieldType:
         print(f"Executing get-perm sql query with parameters: doctype:{doctype}, fieldType:{fieldType}")
         print(
