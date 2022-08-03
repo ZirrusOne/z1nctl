@@ -13,7 +13,7 @@ def get_perm(doctype, **kwargs):
         fieldtype = kwargs["fieldtype"]
     except:
         fieldtype = None
-    if doctype and fieldtype:
+    if doctype is not None and fieldtype is not None:
         print(f"Executing get-perm sql query with parameters: doctype:{doctype}, fieldType:{fieldtype}")
         print(
             frappe.db.sql(f'''
@@ -24,7 +24,7 @@ def get_perm(doctype, **kwargs):
         )
         print("Sucessfully executed get-perm sql query")
         return
-    if doctype:
+    if doctype is not None:
         print(f"Executing get-perm sql query with parameters: doctype:{doctype}")
         print(
             frappe.db.sql(f'''
